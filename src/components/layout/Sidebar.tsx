@@ -1,7 +1,6 @@
-
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { Home, Search, Library, PlusSquare, Heart, BookAudio, Music } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
+import { Home, Search, Library, PlusSquare, Heart, Droplet, Users, Calendar, List } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 
@@ -11,6 +10,12 @@ type SidebarProps = {
 };
 
 const Sidebar = ({ collapsed = false, onToggle }: SidebarProps) => {
+  const location = useLocation();
+  
+  const isActive = (path: string) => {
+    return location.pathname === path;
+  };
+
   return (
     <div 
       className={cn(
@@ -21,11 +26,11 @@ const Sidebar = ({ collapsed = false, onToggle }: SidebarProps) => {
       {/* Logo */}
       <div className="p-6">
         {collapsed ? (
-          <Music className="h-8 w-8 text-white" />
+          <Droplet className="h-8 w-8 text-red-500" />
         ) : (
           <h1 className="text-2xl font-bold text-white flex items-center">
-            <Music className="h-8 w-8 mr-2" /> 
-            MusicStream
+            <Droplet className="h-7 w-7 text-red-500 mr-2" /> 
+            BloodBank
           </h1>
         )}
       </div>
@@ -35,76 +40,77 @@ const Sidebar = ({ collapsed = false, onToggle }: SidebarProps) => {
         <ul className="space-y-2 px-2">
           <li>
             <Link 
-              to="/" 
-              className="flex items-center py-2 px-4 text-sm rounded-md hover:bg-spotify-light hover:text-white transition"
+              to="/dashboard" 
+              className={cn(
+                "flex items-center py-2 px-4 text-sm rounded-md transition",
+                isActive("/dashboard") 
+                  ? "bg-spotify-light text-white" 
+                  : "hover:bg-spotify-light hover:text-white"
+              )}
             >
               <Home className="h-5 w-5 mr-4" />
-              {!collapsed && <span>Home</span>}
+              {!collapsed && <span>Dashboard</span>}
             </Link>
           </li>
           <li>
             <Link 
-              to="/search" 
-              className="flex items-center py-2 px-4 text-sm rounded-md hover:bg-spotify-light hover:text-white transition"
+              to="/donors" 
+              className={cn(
+                "flex items-center py-2 px-4 text-sm rounded-md transition",
+                isActive("/donors") 
+                  ? "bg-spotify-light text-white" 
+                  : "hover:bg-spotify-light hover:text-white"
+              )}
             >
-              <Search className="h-5 w-5 mr-4" />
-              {!collapsed && <span>Search</span>}
+              <Users className="h-5 w-5 mr-4" />
+              {!collapsed && <span>Donors</span>}
             </Link>
           </li>
           <li>
             <Link 
-              to="/library" 
-              className="flex items-center py-2 px-4 text-sm rounded-md hover:bg-spotify-light hover:text-white transition"
+              to="/inventory" 
+              className={cn(
+                "flex items-center py-2 px-4 text-sm rounded-md transition",
+                isActive("/inventory") 
+                  ? "bg-spotify-light text-white" 
+                  : "hover:bg-spotify-light hover:text-white"
+              )}
             >
-              <Library className="h-5 w-5 mr-4" />
-              {!collapsed && <span>Your Library</span>}
+              <Droplet className="h-5 w-5 mr-4" />
+              {!collapsed && <span>Inventory</span>}
+            </Link>
+          </li>
+          <li>
+            <Link 
+              to="/requests" 
+              className={cn(
+                "flex items-center py-2 px-4 text-sm rounded-md transition",
+                isActive("/requests") 
+                  ? "bg-spotify-light text-white" 
+                  : "hover:bg-spotify-light hover:text-white"
+              )}
+            >
+              <Calendar className="h-5 w-5 mr-4" />
+              {!collapsed && <span>Requests</span>}
             </Link>
           </li>
         </ul>
       </nav>
 
-      {/* Create and Liked sections */}
+      {/* Other sections */}
       <div className="mt-4 px-2">
         <ul className="space-y-2">
           <li>
             <Link 
-              to="/create-playlist" 
+              to="/reports" 
               className="flex items-center py-2 px-4 text-sm rounded-md hover:bg-spotify-light hover:text-white transition"
             >
-              <PlusSquare className="h-5 w-5 mr-4" />
-              {!collapsed && <span>Create Playlist</span>}
-            </Link>
-          </li>
-          <li>
-            <Link 
-              to="/liked-songs" 
-              className="flex items-center py-2 px-4 text-sm rounded-md hover:bg-spotify-light hover:text-white transition"
-            >
-              <Heart className="h-5 w-5 mr-4" />
-              {!collapsed && <span>Liked Songs</span>}
+              <List className="h-5 w-5 mr-4" />
+              {!collapsed && <span>Reports</span>}
             </Link>
           </li>
         </ul>
       </div>
-
-      {/* Playlists */}
-      {!collapsed && (
-        <div className="mt-6 px-6 overflow-y-auto flex-grow">
-          <h2 className="uppercase text-xs font-bold mb-4 text-spotify-text">Playlists</h2>
-          <ul className="space-y-2">
-            {['Chill Vibes', 'Workout Mix', 'Study Focus', 'Dance Party', 'Throwback Hits'].map((playlist) => (
-              <li key={playlist}>
-                <Link 
-                  to={`/playlist/${playlist.toLowerCase().replace(/\s+/g, '-')}`}
-                  className="block py-1 text-sm hover:text-white transition"
-                >
-                  {playlist}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
 
       {/* Collapse button */}
       <div className="p-4 mt-auto">

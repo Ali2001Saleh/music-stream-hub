@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { ChevronLeft, ChevronRight, Search, User } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Search, User, Bell } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -11,7 +11,7 @@ type HeaderProps = {
 
 const Header = ({ showSearch = false }: HeaderProps) => {
   const navigate = useNavigate();
-
+  
   return (
     <header className="flex items-center justify-between p-4 bg-spotify-dark bg-opacity-95 sticky top-0 z-10">
       <div className="flex items-center">
@@ -38,8 +38,8 @@ const Header = ({ showSearch = false }: HeaderProps) => {
           <div className="relative">
             <Search className="h-4 w-4 absolute left-3 top-2.5 text-gray-400" />
             <Input 
-              className="bg-spotify-light h-10 pl-9 text-sm rounded-full focus-visible:ring-spotify-purple" 
-              placeholder="Search for songs, artists, or podcasts" 
+              className="bg-spotify-light h-10 pl-9 text-sm rounded-full focus-visible:ring-red-400" 
+              placeholder="Search donors, blood types..." 
             />
           </div>
         )}
@@ -48,9 +48,11 @@ const Header = ({ showSearch = false }: HeaderProps) => {
       <div className="flex items-center gap-2">
         <Button 
           variant="ghost" 
-          className="bg-black hover:bg-spotify-darkAlt text-white rounded-full text-sm py-1 h-8"
+          size="icon" 
+          className="bg-black hover:bg-spotify-darkAlt rounded-full h-8 w-8 relative"
         >
-          Upgrade
+          <Bell className="h-4 w-4 text-white" />
+          <span className="absolute -top-1 -right-1 bg-red-500 text-xs text-white rounded-full h-4 w-4 flex items-center justify-center">3</span>
         </Button>
         <Button 
           variant="ghost" 
